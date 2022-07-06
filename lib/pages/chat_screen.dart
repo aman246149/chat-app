@@ -22,7 +22,7 @@ class _Chat_ScreenState extends State<Chat_Screen> {
   String groupChatId = "";
   String currentUserId = "";
   String peerId = "";
-  XFile? file;
+ 
 
   generateGroupId() {
     currentUserId = FirebaseAuth.instance.currentUser!.uid;
@@ -98,11 +98,6 @@ class _Chat_ScreenState extends State<Chat_Screen> {
     return Future.value(false);
   }
 
-  pickImage() async {
-    ImagePicker picker = ImagePicker();
-    file = await picker.pickImage(source: ImageSource.gallery);
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -130,7 +125,7 @@ class _Chat_ScreenState extends State<Chat_Screen> {
               children: [
                 IconButton(
                     onPressed: () {
-                      pickImage();
+                      // pickImage();
                     },
                     icon: Icon(Icons.image)),
                 IconButton(onPressed: () {}, icon: Icon(Icons.person)),
