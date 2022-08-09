@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:chat_app/constants/Firebasae_constant.dart';
 import 'package:chat_app/constants/mediaquery.dart';
 import 'package:chat_app/models/message_chat.dart';
+import 'package:chat_app/resources/encryption.dart';
 import 'package:chat_app/widgets/chatBubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +23,6 @@ class _Chat_ScreenState extends State<Chat_Screen> {
   String groupChatId = "";
   String currentUserId = "";
   String peerId = "";
- 
 
   generateGroupId() {
     currentUserId = FirebaseAuth.instance.currentUser!.uid;
@@ -50,11 +50,14 @@ class _Chat_ScreenState extends State<Chat_Screen> {
   }
 
   sendChat({required String messaage}) async {
+    final String encmess =
+        Encryption().encryption(messaage, "1234567891234567");
     MessageChat chat = MessageChat(
-        content: messaage,
+        content: encmess,
         idFrom: currentUserId,
         idTo: peerId,
         timestamp: Timestamp.now().toString());
+
     await FirebaseFirestore.instance
         .collection("groupMessages")
         .doc(groupChatId)
@@ -171,6 +174,8 @@ class _Chat_ScreenState extends State<Chat_Screen> {
                 itemBuilder: (context, index) {
                   MessageChat chat =
                       MessageChat.fromDocument(snapshot.data!.docs[index]);
+                  final String message =
+                      Encryption().decrypted(chat.content, "1234567891234567");
                   return ChatBubble(
                       text: chat.content,
                       isCurrentUser:

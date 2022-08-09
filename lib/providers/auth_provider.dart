@@ -2,41 +2,28 @@ import 'package:chat_app/constants/Error.dart';
 import 'package:chat_app/resources/FirebaseMethod.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthProvider extends ChangeNotifier {
-  bool _isLoading = false;
+  String errormsg = "";
+  bool isLoading = false;
+  String otp = "";
 
-  UserCredential? _user;
-
-  String _errormsg = "";
-
-  String get errormsg => _errormsg;
-  bool get isLoading => _isLoading;
-
-  UserCredential? get user => _user;
-
-  void setLoading(bool loading) {
-    _isLoading = loading;
+  void setSignIn(String phonenumber, BuildContext context) async {
+    isLoading = true;
+    print("From Provider");
+    print(isLoading);
+    notifyListeners();
+    // final result = await FirebaseMethods().signIn(phonenumber, context);
+    // result.fold((left) async => errormsg = left.errormsg, (right) => "");
+    isLoading = false;
+    print(isLoading);
     notifyListeners();
   }
 
-  Future<void> setSignUp(String username, String email, String password) async {
-    setLoading(true);
-    final result = await FirebaseMethods().signUp(email, password, username);
-
-    result.fold((left) async => _errormsg = left.errormsg, (right) {});
-    _isLoading = false;
-
-    setLoading(false);
-  }
-
-  Future<void> setSignIn(String email, String password) async {
-    setLoading(true);
-    final result = await FirebaseMethods().signIn(email, password);
-
-    result.fold((left) async => _errormsg = left.errormsg, (right) => null);
-    _isLoading = false;
-    setLoading(false);
+  Future<void> setOtp(String lotp) async {
+    otp = lotp;
+    notifyListeners();
   }
 }

@@ -43,6 +43,9 @@ dependencies:
   either_dart:
   fluttertoast: 
   image_picker:
+  encrypt: ^5.0.1
+  country_list_pick: ^1.0.1+6
+  pin_code_fields: ^7.4.0
 
 dev_dependencies:
   flutter_test:

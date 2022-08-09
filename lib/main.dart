@@ -1,7 +1,7 @@
 import 'package:chat_app/pages/chat_screen.dart';
 import 'package:chat_app/pages/home_page.dart';
 import 'package:chat_app/pages/login.dart';
-import 'package:chat_app/pages/sign_up.dart';
+import 'package:chat_app/pages/otp_screen.dart';
 import 'package:chat_app/providers/auth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,12 +35,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => AuthProvider(),
+          create: (_) => AuthProvider(),
         )
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+          // useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
         home: StreamBuilder(
@@ -63,7 +64,7 @@ class MyApp extends StatelessWidget {
               }
             }
 
-            return const SignUp();
+            return const LoginScreen();
           },
         ),
       ),

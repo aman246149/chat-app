@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   ChatProvider chatProvider = ChatProvider();
   @override
   void initState() {
-    chatProvider.registerNotification();
+    // chatProvider.registerNotification();
     super.initState();
   }
 
@@ -45,46 +45,46 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection("users")
-              .where('uid',
-                  isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
-              .snapshots(),
-          builder: ((context,
-              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) {
-                UserModel user = UserModel.fromJson(snapshot.data!.docs[index]);
+      // body: StreamBuilder(
+      //     stream: FirebaseFirestore.instance
+      //         .collection("users")
+      //         .where('uid',
+      //             isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
+      //         .snapshots(),
+      //     builder: ((context,
+      //         AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+      //       if (snapshot.connectionState == ConnectionState.waiting) {
+      //         return const Center(
+      //           child: CircularProgressIndicator(),
+      //         );
+      //       }
+      //       if (!snapshot.hasData) {
+      //         return const Center(
+      //           child: CircularProgressIndicator(),
+      //         );
+      //       }
+      //       return ListView.builder(
+      //         itemCount: snapshot.data!.docs.length,
+      //         itemBuilder: (context, index) {
+      //           UserModel user = UserModel.fromJson(snapshot.data!.docs[index]);
 
-                return InkWell(
-                  autofocus: true,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Chat_Screen(uid: user.uid),
-                        ));
-                  },
-                  child: ListTile(
-                    title: Text(user.userName),
-                    subtitle: Text(user.userEmail),
-                  ),
-                );
-              },
-            );
-          })),
+      //           return InkWell(
+      //             autofocus: true,
+      //             onTap: () {
+      //               Navigator.push(
+      //                   context,
+      //                   MaterialPageRoute(
+      //                     builder: (context) => Chat_Screen(uid: user.uid),
+      //                   ));
+      //             },
+      //             child: ListTile(
+      //               title: Text(user.userName),
+      //               subtitle: Text(user.userEmail),
+      //             ),
+      //           );
+      //         },
+      //       );
+      //     })),
     );
   }
 }
